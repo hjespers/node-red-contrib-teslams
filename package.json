@@ -1,14 +1,32 @@
 {
-    "name"         : "node-red-contrib-teslams",
-    "version"      : "0.1.5",
-    "description"  : "Nodes for controlling and getting real-time telemetry from a Tesla Model S using node-red",
-    "dependencies": {
-        "teslams": "0.9.5"
-    },
-    "keywords": [ "node-red", "tesla", "teslams" ],
-    "node-red"     : {
-        "nodes": {
-            "teslams": "teslams/teslams.js"
-        }
+  "name": "node-red-contrib-teslams",
+  "version": "0.1.5",
+  "description": "Nodes for controlling and getting real-time telemetry from a Tesla Model S using node-red",
+  "dependencies": {
+    "teslams": "0.9.5"
+  },
+  "keywords": [
+    "node-red",
+    "tesla",
+    "teslams"
+  ],
+  "node-red": {
+    "nodes": {
+      "teslams": "teslams/teslams.js"
     }
+  },
+  "main": "teslams/teslams.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hjespers/node-red-contrib-teslams.git"
+  },
+  "author": "Hans Jespersen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hjespers/node-red-contrib-teslams/issues"
+  },
+  "homepage": "https://github.com/hjespers/node-red-contrib-teslams"
 }
