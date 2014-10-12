@@ -1,0 +1,338 @@
+<- 
+    By Hans Jespersen 
+->
+
+<script type="text/x-red" data-template-name="login">
+    <div class="form-row node-input-useAuth-row">
+        <label for="node-input-user"><i class="fa fa-user"></i> Tesla Email</label>
+        <input type="text" id="node-input-user">
+    </div>
+    <div class="form-row node-input-useAuth-row">
+        <label for="node-input-password"><i class="fa fa-lock"></i> Password</label>
+        <input type="password" id="node-input-password">
+    </div>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-tips"><b>Note:</b> You must authenticate before calling other commands</div>
+</script>
+
+<script type="text/x-red" data-help-name="login">
+    <p>Tesla authentication node.</p>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('login',{
+        category: 'TeslaMS',
+        color:"#FF0000",
+        defaults: {
+            name: {value:""}
+        },
+        credentials: {
+            user: {type:"text"},
+            password: {type:"password"}
+        },
+        inputs:1,
+        outputs:1,
+        icon: "tesla.png",
+        align: "right",
+        label: function() {
+            return this.name||"login";
+        },
+        labelStyle: function() {
+            return this.name?"node_label_italic":"";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="command">
+    <div class="form-row">
+        <label for="node-input-command"><i class="fa fa-tasks"></i> Command</label>
+        <select type="text" id="node-input-command" style="width:72%;">
+            <option value="honk">Honk Horn</option>
+            <option value="flash">Flash Lights</option>
+            <option value="get_drive_state">Get Drive State</option>
+            <option value="get_vehicle_state">Get Vehicle State</option>
+            <option value="get_climate_state">Get Climate State</option>
+            <option value="get_charge_state">Get Charge State</option>
+            <option value="get_gui_settings">Get GUI Settings</option>
+            <option value="open_charge_port">Open Charge Port</option>
+            <option value="wake_up">Wake Up Car</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-tips"><b>Note:</b> You must authenticate before calling other commands</div>
+</script>
+
+<script type="text/x-red" data-help-name="command">
+    <p>Tesla multi-purpose command node for getting data.</p>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('command',{
+        category: 'TeslaMS',
+        color:"#FF0000",
+        defaults: {
+            name: {value:""},
+            command: {value:"get_vehicle_state",required:true}
+        },
+        inputs:1,
+        outputs:1,
+        icon: "tesla.png",
+        align: "right",
+        label: function() {
+            return this.name||this.command;
+        },
+        labelStyle: function() {
+            return this.name?"node_label_italic":"";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="lock">
+    <div class="form-row">
+        <label for="node-input-state"><i class="fa fa-tasks"></i> State</label>
+        <select type="text" id="node-input-state" style="width:72%;">
+            <option value="lock">Lock Car</option>
+            <option value="unlock">Unlock Car</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-tips"><b>Note:</b> You must authenticate before calling other commands</div>
+</script>
+
+<script type="text/x-red" data-help-name="lock">
+    <p>Tesla car lock node.</p>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('lock',{
+        category: 'TeslaMS',
+        color:"#FF0000",
+        defaults: {
+            name: {value:""},
+            state: {value:"lock",required:true}
+        },
+        inputs:1,
+        outputs:1,
+        icon: "tesla.png",
+        align: "right",
+        label: function() {
+            return this.name||this.state + ' car';
+        },
+        labelStyle: function() {
+            return this.name?"node_label_italic":"";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="sunroof">
+    <div class="form-row">
+        <label for="node-input-state"><i class="fa fa-tasks"></i> Position</label>
+        <select type="text" id="node-input-state" style="width:72%;">
+            <option value="close">Close</option>
+            <option value="vent">Vent</option>
+            <option value="comfort">Comfort</option>
+            <option value="open">Open</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-tips"><b>Note:</b> You must authenticate before calling other commands</div>
+</script>
+
+<script type="text/x-red" data-help-name="sunroof">
+    <p>Tesla sunroof control node.</p>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('sunroof',{
+        category: 'TeslaMS',
+        color:"#FF0000",
+        defaults: {
+            name: {value:""},
+            state: {value:"close",required:true}
+        },
+        inputs:1,
+        outputs:1,
+        icon: "tesla.png",
+        align: "right",
+        label: function() {
+            return this.name||this.state + ' sunroof';
+        },
+        labelStyle: function() {
+            return this.name?"node_label_italic":"";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="charger">
+    <div class="form-row">
+        <label for="node-input-state"><i class="fa fa-tasks"></i> State</label>
+        <select type="text" id="node-input-state" style="width:72%;">
+            <option value="start">Start Charging</option>
+            <option value="stop">Stop Charging</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-tips"><b>Note:</b> You must authenticate before calling other commands</div>
+</script>
+
+<script type="text/x-red" data-help-name="charger">
+    <p>Tesla charger control node.</p>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('charger',{
+        category: 'TeslaMS',
+        color:"#FF0000",
+        defaults: {
+            name: {value:""},
+            state: {value:"start",required:true}
+        },
+        inputs:1,
+        outputs:1,
+        icon: "tesla.png",
+        align: "right",
+        label: function() {
+            return this.name||this.state + ' charger';
+        },
+        labelStyle: function() {
+            return this.name?"node_label_italic":"";
+        }
+    });
+</script>
+
+<- TODO make range input with a slider bar input instead of number ->
+
+<script type="text/x-red" data-template-name="charge-range">
+    <div id="range-details" class="form-row">
+        <label for="node-input-range"><i class="fa fa-square"></i> Set Range</label>
+        <input type="number" id="node-input-range" placeholder=90 min=50 max=100 style="direction:rtl; width:50px !important">
+        <label for="node-input-range"></i> Percent</label>
+    </div>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-tips"><b>Note:</b> You must authenticate before calling other commands</div>
+</script>
+
+<script type="text/x-red" data-help-name="charge-range">
+    <p>Tesla charge range control node.</p>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('charge-range',{
+        category: 'TeslaMS',
+        color:"#FF0000",
+        defaults: {
+            name: {value:""},
+            range: {value:90,required:true}
+        },
+        inputs:1,
+        outputs:1,
+        icon: "tesla.png",
+        align: "right",
+        label: function() {
+            return this.name||this.range +' range';
+        },
+        labelStyle: function() {
+            return this.name?"node_label_italic":"";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="climate">
+    <div class="form-row">
+        <label for="node-input-state"><i class="fa fa-tasks"></i> State</label>
+        <select type="text" id="node-input-state" style="width:72%;">
+            <option value="start">Start HVAC</option>
+            <option value="stop">Stop HVAC</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-tips"><b>Note:</b> You must authenticate before calling other commands</div>
+</script>
+
+<script type="text/x-red" data-help-name="climate">
+    <p>Tesla climate (HVAC) control node.</p>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('climate',{
+        category: 'TeslaMS',
+        color:"#FF0000",
+        defaults: {
+            name: {value:""},
+            state: {value:"start",required:true}
+        },
+        inputs:1,
+        outputs:1,
+        icon: "tesla.png",
+        align: "right",
+        label: function() {
+            return this.name||this.state + ' HVAC';
+        },
+        labelStyle: function() {
+            return this.name?"node_label_italic":"";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="set-temp">
+    <div id="delay-details" class="form-row">
+        <label for="node-input-temp"><i class="fa fa-square"></i> Temp</label>
+        <input type="number" id="node-input-temp" placeholder=20 min=17 max=32 style="direction:rtl; width:50px !important">
+        <select id="node-input-scale" style="width:10 !important">
+          <option value="C">Celcius</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-tips"><b>Note:</b> You must authenticate before calling other commands</div>
+</script>
+
+<script type="text/x-red" data-help-name="set-temp">
+    <p>Tesla climate (HVAC) temperature setting control node.</p>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('set-temp',{
+        category: 'TeslaMS',
+        color:"#FF0000",
+        defaults: {
+            name: {value:""},
+            temp: {value:20,required:true},
+            scale: {value:"C"}
+        },
+        inputs:1,
+        outputs:1,
+        icon: "tesla.png",
+        align: "right",
+        label: function() {
+            return this.name||this.temp + ' C';
+        },
+        labelStyle: function() {
+            return this.name?"node_label_italic":"";
+        }
+    });
+</script>
+
