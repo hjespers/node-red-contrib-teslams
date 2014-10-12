@@ -4,6 +4,8 @@ node-red-contrib-teslams
 Node-Red (http://nodered.org) nodes for communicating with a Tesla Model S electric car. 
 Based on the teslams javascript libraries (https://github.com/hjespers/teslams).
 
+<img src="https://github.com/hjespers/node-red-contrib-teslams/blob/master/Screen_Shot.png">
+
 These programs and documentation do not come from Tesla Motors Inc.
 
 Be careful when using these programs as they can lock and unlock your car as well as control various functions relating to the charging system, sun roof, headlights, horn, climate control, and other subsystems of the car.
