@@ -376,9 +376,11 @@ module.exports = function(RED) {
                 node.send(outmsg);
             }
 
+            if (msg.range >= 50 && msg.range <= 100) range = msg.range;
             if (vid) {
                 if ( range >= 50 && range <= 100 ) {
                     teslams.charge_range( { id: vid, range: 'set', percent: range }, function (resp) {
+                        outmsg.range = range;
                         outmsg.payload = resp;
                         node.send(outmsg);
                     });
