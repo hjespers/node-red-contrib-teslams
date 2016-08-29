@@ -232,6 +232,10 @@
 
 <script type="text/x-red" data-help-name="charge-range">
     <p>Tesla charge range control node.</p>
+    <p>If it exists, and the value is within the valid interval, 
+       <b>msg.range</b> will override the configured range value.</p>
+    <p>If the command is successful, the set range will be returned in 
+       <b>msg.range</b>.</p>
 </script>
 
 <script type="text/javascript">
