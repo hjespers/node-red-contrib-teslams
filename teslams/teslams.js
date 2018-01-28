@@ -25,33 +25,34 @@ module.exports = function(RED) {
                     //util.inspect( 'response is: \n' + response );
                     try { 
                         data = JSONbig.parse(body); 
+
+                        //check we got an array of vehicles and get the first one
+                        if (!util.isArray(data.response)) {
+                            util.inspect( data.response );                        
+                            e = new Error('expecting an array from Tesla Motors cloud service');
+                            util.log('[teslams] ' + e);
+                            outmsg.payload = e;
+                            node.send(outmsg);
+                        } else {
+                            vehicle = data.response[0];
+                            //check the vehicle has a valid id
+                            if (vehicle === undefined || vehicle.id === undefined) {
+                                e = new Error('expecting vehicle ID from Tesla Motors cloud service');
+                                util.log('[teslams] ' + e );
+                                outmsg.payload = e;
+                                node.send(outmsg);
+                            } else {                     
+                                vehicle.id = vehicle.id.toString();
+                                vehicle.vehicle_id = vehicle.vehicle_id.toString();
+                                outmsg.payload = JSON.stringify(new Array(vehicle) );
+                                node.send(outmsg);
+                            } 
+                        }                             
                     } catch(err) { 
                         console.log('[teslams] Telsa login error: ' + err);
                         outmsg.payload = err;
                         node.send(outmsg);
-                    }
-                    //check we got an array of vehicles and get the first one
-                    if (!util.isArray(data.response)) {
-                        util.inspect( data.response );                        
-                        e = new Error('expecting an array from Tesla Motors cloud service');
-                        util.log('[teslams] ' + e);
-                        outmsg.payload = e;
-                        node.send(outmsg);
-                    } else {
-                        vehicle = data.response[0];
-                        //check the vehicle has a valid id
-                        if (vehicle === undefined || vehicle.id === undefined) {
-                            e = new Error('expecting vehicle ID from Tesla Motors cloud service');
-                            util.log('[teslams] ' + e );
-                            outmsg.payload = e;
-                            node.send(outmsg);
-                        } else {                     
-                            vehicle.id = vehicle.id.toString();
-                            vehicle.vehicle_id = vehicle.vehicle_id.toString();
-                            outmsg.payload = JSON.stringify(new Array(vehicle) );
-                            node.send(outmsg);
-                        } 
-                    }          
+                    }     
                 });
             } catch (e) {
                 util.log('[teslams] Telsa login error: ' + e);
