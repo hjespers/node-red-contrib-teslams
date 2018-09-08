@@ -3,7 +3,7 @@
   "version": "0.2.0",
   "description": "Nodes for controlling and getting real-time telemetry from a Tesla Model S using node-red",
   "dependencies": {
-    "teslams": "~1.0.0",
+    "teslams": ">=1.2.2",
     "json-bigint": ">= 0.1.4"
   },
   "keywords": [
