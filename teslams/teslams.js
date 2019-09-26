@@ -6,6 +6,7 @@ module.exports = function(RED) {
     "use strict";
     var teslams = require('teslams');
 
+	var carNum = 0;
 
     function TeslaLogin(n) {
 
@@ -18,6 +19,7 @@ module.exports = function(RED) {
             var outmsg = { 
                 topic: msg.topic
             };
+			carNum = parseInt(msg.payload);
             try{   
                 teslams.all( { email: tesla_email, password: tesla_password }, function ( error, response, body ) {
                     var data, vehicle, e;
@@ -38,7 +40,7 @@ module.exports = function(RED) {
                         outmsg.payload = e;
                         node.send(outmsg);
                     } else {
-                        vehicle = data.response[0];
+                        vehicle = data.response[carNum];
                         //check the vehicle has a valid id
                         if (vehicle === undefined || vehicle.id === undefined) {
                             e = new Error('expecting vehicle ID from Tesla Motors cloud service');
