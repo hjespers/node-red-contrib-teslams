@@ -11,6 +11,10 @@
         <label for="node-input-password"><i class="fa fa-lock"></i> Password</label>
         <input type="password" id="node-input-password">
     </div>
+    <div class="form-row node-input-useAuth-row">
+        <label for="node-input-token"><i class="fa fa-text"></i> Token</label>
+        <input type="text" id="node-input-token">
+    </div>
     <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name" placeholder="Name">
@@ -31,7 +35,8 @@
         },
         credentials: {
             user: {type:"text"},
-            password: {type:"password"}
+            password: {type:"password"},
+            token: {type: "text"}
         },
         inputs:1,
         outputs:1,
