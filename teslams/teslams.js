@@ -6,6 +6,7 @@ module.exports = function(RED) {
     "use strict";
     var teslams = require('teslams');
 
+	var carNum = 0;
 
     function TeslaLogin(n) {
 
@@ -13,13 +14,25 @@ module.exports = function(RED) {
         var node = this;
         var tesla_email = this.credentials.user;
         var tesla_password = this.credentials.password;
+        var tesla_token = this.credentials.token;
+
+		var logindata = "";
+		if(tesla_token != "")
+		{
+			logindata = { email: tesla_email, token: tesla_token };
+		}
+		else
+		{
+			logindata = { email: tesla_email, password: tesla_password };
+		}
 
         this.on("input", function(msg) {
             var outmsg = { 
                 topic: msg.topic
             };
-            try{   
-                teslams.all( { email: tesla_email, password: tesla_password }, function ( error, response, body ) {
+			carNum = parseInt(msg.payload);
+            try{
+                teslams.all( logindata, function ( error, response, body ) {
                     var data, vehicle, e;
                     //check we got a valid JSON response from Tesla
                     //util.inspect( 'response is: \n' + response );
@@ -50,9 +63,34 @@ module.exports = function(RED) {
                         }                             
                     } catch(err) { 
                         console.log('[teslams] Telsa login error: ' + err);
+						if(response != undefined)
+							console.log('[teslams] Response: ' + response);
                         outmsg.payload = err;
                         node.send(outmsg);
-                    }     
+						return; //some error will crash node-red if we don't exit here
+                    }
+                    //check we got an array of vehicles and get the first one
+                    if (!util.isArray(data.response)) {
+                        util.inspect( data.response );                        
+                        e = new Error('expecting an array from Tesla Motors cloud service');
+                        util.log('[teslams] ' + e);
+                        outmsg.payload = e;
+                        node.send(outmsg);
+                    } else {
+                        vehicle = data.response[carNum];
+                        //check the vehicle has a valid id
+                        if (vehicle === undefined || vehicle.id === undefined) {
+                            e = new Error('expecting vehicle ID from Tesla Motors cloud service');
+                            util.log('[teslams] ' + e );
+                            outmsg.payload = e;
+                            node.send(outmsg);
+                        } else {                     
+                            vehicle.id = vehicle.id.toString();
+                            vehicle.vehicle_id = vehicle.vehicle_id.toString();
+                            outmsg.payload = JSON.stringify(new Array(vehicle) );
+                            node.send(outmsg);
+                        } 
+                    }          
                 });
             } catch (e) {
                 util.log('[teslams] Telsa login error: ' + e);
@@ -64,7 +102,8 @@ module.exports = function(RED) {
     RED.nodes.registerType("login",TeslaLogin,{
         credentials: {
             user: {type:"text"},
-            password: {type: "password"}
+            password: {type: "password"},
+            token: {type: "text"}
         }
     });
 
